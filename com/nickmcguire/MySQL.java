@@ -94,6 +94,11 @@ public class MySQL extends Database
 		return false;
 	}
 	
+	public boolean createTable(Query query)
+	{
+		return createTable(query.getQuery());
+	}
+	
 	/**
 	 * Create a table in the database
 	 * @param query The create query
@@ -116,6 +121,11 @@ public class MySQL extends Database
 			}
 		}
 		return false;
+	}
+	
+	public boolean createRow(Query query)
+	{
+		return createRow(query.getQuery());
 	}
 	
 	/**
@@ -148,15 +158,22 @@ public class MySQL extends Database
 	 * @return If the query was successful
 	 */
 	@Override
-	public boolean dropTable(String tableName)
+	public boolean dropTable(String tablename)
+	{
+		return dropTable(tablename, false);
+	}
+	
+	@Override
+	public boolean dropTable(String tablename, boolean doesExist)
 	{
 		if (isConnected())
 		{
 			try
 			{
 				Statement statement = connection.createStatement();
-				statement.execute("DROP TABLE " + tableName);
-				
+				String beginStatement = (doesExist) ? "DROP TABLE " : "DROP TABLE IF NOT EXISTS "; 
+				statement.execute(beginStatement + tablename);
+				return true;
 			}
 			catch (SQLException ex)
 			{
@@ -165,6 +182,11 @@ public class MySQL extends Database
 		}
 		
 		return false;
+	}
+	
+	public ResultSet queryTable(Query query)
+	{
+		return queryTable(query.getQuery());
 	}
 	
 	/**

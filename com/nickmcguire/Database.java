@@ -14,7 +14,8 @@ public abstract class Database
 	
 	public abstract ResultSet queryTable(String query);
 	
-	public abstract boolean dropTable(String table);
+	public abstract boolean dropTable(String tablename);
+	public abstract boolean dropTable(String tablename, boolean doesExist);
 	
 	protected Command whichCommand(String query)
 	{
@@ -22,10 +23,10 @@ public abstract class Database
 			return Command.SELECT;
 		else if (query.substring(0, 6).equalsIgnoreCase("CREATE"))
 			return Command.CREATE;
-		else if (query.substring(0, 5).equalsIgnoreCase("ALTER"))
-			return Command.ALTER;
 		else if (query.substring(0, 6).equalsIgnoreCase("INSERT"))
 			return Command.INSERT;
+		else if (query.substring(0, 5).equalsIgnoreCase("ALTER"))
+			return Command.ALTER;
 		else
 			return Command.ERR;
 	}
