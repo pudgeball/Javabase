@@ -4,16 +4,7 @@ public class Query
 {
 	private Command command;
 	private String args, from, where, order, values;
-	
-	public Query(Command command, String args, String from, String where, String order, String values)
-	{
-		this.command = command;
-		this.args = args;
-		this.from = from;
-		this.where = where;
-		this.order = order;
-		this.values = values;
-	}
+	private boolean isDesc;
 	
 	public String getQuery()
 	{
@@ -51,7 +42,7 @@ public class Query
 	public String getOrder()
 	{
 		if (order != null)
-			return " ORDER BY " + order;
+			return " ORDER BY " + order + " " + getIsDesc();
 		else
 			return "";
 	}
@@ -64,9 +55,22 @@ public class Query
 			return "";
 	}
 	
+	public String getIsDesc()
+	{
+		if (isDesc)
+			return "DESC";
+		else
+			return "ASC";
+	}
+	
 	public void setCommand(Command command)
 	{
 		this.command = command;
+	}
+	
+	public void setArgs(String args)
+	{
+		this.args = args;
 	}
 	
 	public void setFrom(String from)
@@ -79,8 +83,14 @@ public class Query
 		this.where = where;
 	}
 	
-	public void setOrder(String order)
+	public void setOrder(String order, boolean descending)
 	{
 		this.order = order;
+		isDesc = descending;
+	}
+	
+	public void setValues(String values)
+	{
+		this.values = values;
 	}
 }

@@ -4,6 +4,7 @@ public class QueryBuilder
 {
 	private Command command;
 	private String args, from, where, order, values;
+	private boolean isDesc;
 	
 	public QueryBuilder command(Command command)
 	{
@@ -29,9 +30,10 @@ public class QueryBuilder
 		return this;
 	}
 	
-	public QueryBuilder order(String order)
+	public QueryBuilder order(String order, boolean isDesc)
 	{
 		this.order = order;
+		this.isDesc = isDesc;
 		return this;
 	}
 	
@@ -43,6 +45,15 @@ public class QueryBuilder
 	
 	public Query buildQuery()
 	{
-		return new Query(command, args, from, where, order, values);
+		Query query = new Query();
+		
+		query.setCommand(command);
+		query.setArgs(args);
+		query.setFrom(from);
+		query.setOrder(order, isDesc);
+		query.setWhere(where);
+		query.setValues(values);
+		
+		return query;
 	}
 }
